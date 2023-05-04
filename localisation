@@ -1,0 +1,157 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    
+    <link rel="stylesheet" href="../static/infos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Sora&display=swap" rel="stylesheet">
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <title>Deezaster</title>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBrD4TXNJCCiJG34lSr-CpBO4PrkHZXLtE&libraries=&v=weekly"></script>
+    <script type="text/javascript">
+        const cities = '{{.Locations}}'.slice(1, -1).split(' ')
+        console.log(cities)
+        const locations = []
+
+        function clickers(s) {
+            for (let i = 0; i < locations.length; i++) {
+                if (locations[i].city == s) {
+                    initialiser(locations[i].lat, locations[i].lng);
+                    break;
+                }
+            }
+        }
+
+        function initialiser(lat, long) {
+            if (lat != "" && long != "") {
+                var latlng = new google.maps.LatLng(lat, long);
+                var options = {
+                    center: latlng,
+                    zoom: 8,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+            } else {
+                var latlng = new google.maps.LatLng(45.764043, 4.835659);
+                var options = {
+                    center: latlng,
+                    zoom: 10,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+            }
+
+            var map = new google.maps.Map(document.getElementById("map"), options);
+            cities.forEach((city) => {
+                fetch("https://api.mapbox.com/geocoding/v5/mapbox.places/" + city + ".json?types=place%2Cpostcode%2Caddress&access_token=sk.eyJ1IjoiYW1hdXJ5bnRtIiwiYSI6ImNsMGwyN2t0djA2a2YzanFseDA5cXp4OGIifQ.8-MgOqGzbaJrCP210tpTxw")
+                    .then(r => r.json())
+                    .then(res => {
+                        locations.push({
+                            city: city,
+                            lat: res.features[0].center[1],
+                            lng: res.features[0].center[0]
+                        })
+                        const marker = new google.maps.Marker({
+                            position: {
+                                lat: res.features[0].center[1],
+                                lng: res.features[0].center[0]
+                            },
+                            map,
+                            title: "Click to zoom",
+                        });
+                        marker.addListener("click", () => {
+                            map.setZoom(8);
+                            map.setCenter(marker.getPosition());
+                            console.log(marker.getPosition())
+                        });
+                    })
+                    .catch((err) => console.log(err))
+            })
+        }
+    </script>
+</head>
+
+
+<body class="mainpage" onload="initialiser('','')">
+    <nav>
+        <div class="navbar">
+            <div class="navcontainer nav-container">
+                <input class="checkbox" type="checkbox" name="" id="" />
+                <div class="hamburger-lines">
+                    <span class="line line1"></span>
+                    <span class="line line2"></span>
+                    <span class="line line3"></span>
+                </div>
+                <div class="navlogo">
+                    <h1><a href="/home">GT & Co</a></h1>
+                </div>
+                <div class="menu-items">
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="/artistpage">Artists</a></li>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="main">
+        <div class="maincontent">
+            <div class="logo">
+                <img src="{{.Image}}" class="image" alt="artist" style="border-radius: 50%">
+            </div>
+            <div class="title">
+                <h1>À Propos de : {{.Name}}</h1>
+            </div>
+        </div>
+        <div class="secondarycontent">
+            <div class="members">
+                <span>Membres: </span> {{range .Members}} {{.}}, {{end}}
+            </div>
+            <div class="creationdate">
+                <span>Date de création: </span> {{.CreationDate}}
+            </div>
+            <div class="firstalbum">
+                <span>Date de sortie du premier album: </span> {{.FirstAlbum}}
+            </div>
+        </div>
+    </div>
+    <div class="locations"> {{ range $key, $value := .Relation.DatesLocations }}
+        <div class="key">
+            <li><strong onclick="clickers('{{ $key }}')" style="cursor: pointer;">{{ $key }}</strong> <br>
+                <h2>Dates de concerts: </h2>{{ range $value }}
+                <p>- {{.}}</p> {{end}} </li>
+        </div>
+        {{ end }}
+    </div>
+    <div id="map"></div>
+</body>
+
+</html>
+
+
+
+
+<form id="search-form">
+    <label for="search-input">Rechercher une localisation :</label>
+    <input type="text" id="search-input" name="search-input" />
+    <input type="submit" value="Rechercher" />
+  </form>
+
+
+
+  <div class="class">
+    <label for="date-range">Date de création :</label>
+<input type="date" name="start-date" id="start-date" placeholder="De">
+<input type="date" name="end-date" id="end-date" placeholder="À">
+<button type="button" onclick="filterByDate()">Filtrer</button>
+
+<label for="member-count-range">Nombre de membres :</label>
+<input type="number" name="member-count-min" id="member-count-min" placeholder="Minimum">
+<input type="number" name="member-count-max" id="member-count-max" placeholder="Maximum">
+<button type="button" onclick="filterByMemberCount()">Filtrer</button>
+<label for="concert-locations">Lieux de concerts :</label>
+<input type="checkbox" name="location" value="Paris" id="location-1"> 
+<label for="location-1">Paris</label>
+<input type="checkbox" name="location" value="Londres" id="location-2"> 
+<label for="location-2">Londres</label>
+<input type="checkbox" name="location" value="New York" id="location-3"> 
+<label for="location-3">New York</label>
+<button type="button" onclick="filterByConcertLocations()">Filtrer</button>
+</div>

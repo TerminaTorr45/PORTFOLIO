@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Advent+Pro:wght@300&family=Cormorant+Infant:ital,wght@1,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #020303;
+    font-family: 'Cormorant Infant', sans-serif;
+}
+
+.container {
+  position: relative;
+  width: 87%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(350px, 1fr));
+  grid-template-rows: auto;
+}
+
+.container .box {
+    position: relative;
+    height: 550px;
+    width: 300px;
+    background: #060c21;
+    display: flex;
+    justify-content: center;
+    border: 1px solid #020303;
+    grid-gap: 250px;
+    border-color: white;
+    align-items: baseline;
+}
+
+.container .box:hover {
+    border-color: #53dd13;
+}
+
+.content {
+    position: relative;
+    padding: 20px;
+    transform: translateY(40px);
+    top: 140px;
+}
+
+.box .content h2 {
+  position: absolute;
+  top: -165px;
+  right: 32px;
+  margin: 0 0 10px;
+  padding: 0;
+  font-size: 2em;
+  color: #ee05d3;
+  transition: 1s;
+}
+
+.box:hover .content h2 {
+    top: -110px;
+}
+
+.box .content h3 {
+    margin: 0 0 10px;
+    padding: 0;
+    font-size: 24px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.box .content p {
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    font-size: 16px;
+}
+
+.footer {
+    margin: 20px;
+    position: absolute;
+    bottom: 0px;
+}
+
+.Home {
+    text-align: center;
+    color: #ff00dd;
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+    padding: 15px 30px;
+    letter-spacing: 4px;
+    text-decoration: none;
+    font-size: 20px;
+    overflow: hidden;
+    transition: 0.3s;
+    font-family: 'Lobster', cursive;
+}
+
+.home-btn {
+    text-align: center;
+    color:  #f50af5;
+    position: relative;
+    display: inline-block;
+    padding: 15px 30px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    font-size: 19px;
+    transition: 0.5s ease;
+    overflow: hidden;
+    font-family: 'Lobster', cursive;
+    background-color: #272727;
+    border-radius: 5px;
+    border: 2px solid #f50af5;
+}
+
+.home-btn:hover {
+    background-color: #ffd700;
+    color: #000;
+}

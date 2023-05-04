@@ -1,0 +1,21 @@
+{{define "filtre"}}
+    <div class="class">
+        <label for="date-range">Date de création :</label>
+    <input type="date" name="start-date" id="start-date" placeholder="De">
+    <input type="date" name="end-date" id="end-date" placeholder="À">
+    <button type="button" onclick="filterByDate()">Filtrer</button>
+    
+    <label for="member-count-range">Nombre de membres :</label>
+    <input type="number" name="member-count-min" id="member-count-min" placeholder="Minimum">
+    <input type="number" name="member-count-max" id="member-count-max" placeholder="Maximum">
+    <button type="button" onclick="filterByMemberCount()">Filtrer</button>
+    <label for="concert-locations">Lieux de concerts :</label>
+    <input type="checkbox" name="location" value="Paris" id="location-1"> 
+    <label for="location-1">Paris</label>
+    <input type="checkbox" name="location" value="Londres" id="location-2"> 
+    <label for="location-2">Londres</label>
+    <input type="checkbox" name="location" value="New York" id="location-3"> 
+    <label for="location-3">New York</label>
+    <button type="button" onclick="filterByConcertLocations()">Filtrer</button>
+    </div>
+{{end}}

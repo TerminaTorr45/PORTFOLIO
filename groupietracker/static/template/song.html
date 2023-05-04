@@ -1,0 +1,11 @@
+{{define "musique"}}
+<div class="imagesA">
+<div class="card">
+    
+    <img class="imageimage" src={{.Image}} alt="hgci">
+    <a   class="name" href="/id?id={{.Id}}">{{.Name}}</a>
+    <audio class="audio" controls  src={{.Preview}} class="audio">
+    </audio>
+</div>
+</div>
+{{end}}
